@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>متولي الوصابي - مطور ومصمم محترف</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #4338ca;
+    --primary-light: #6366f1;
+    --primary-dark: #3730a3;
+    --accent: #8b5cf6;
+    --light: #e0e7ff;
+    --dark: #1e293b;
+    --gray: #4b5563;
+    --white: #ffffff;
+    --success: #10b981;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+    color: var(--dark);
+    line-height: 1.7;
+    overflow-x: hidden;
+    position: relative;
+    scroll-behavior: smooth;
+  }
+  
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(103, 58, 183, 0.1) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(67, 56, 202, 0.1) 0%, transparent 40%);
+    z-index: -1;
+  }
+
+  /* Preloader */
+  #preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.6s ease;
+  }
+
+  #preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .spinner {
+    border: 8px solid rgba(255, 255, 255, 0.3);
+    border-top: 8px solid var(--white);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* شريط التقدم */
+  .progress-container {
+    width: 100%;
+    height: 5px;
+    background: transparent;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 2000;
+  }
+  
+  .progress-bar {
+    height: 5px;
+    background: linear-gradient(to right, var(--accent), var(--primary));
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  
+  /* شعار شخصي */
+  .personal-logo {
+    position: fixed; /* Changed to fixed for better visibility */
+    top: 20px;
+    left: 20px;
+    z-index: 1000; /* Increased z-index */
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--white);
+    background: linear-gradient(45deg, var(--accent), var(--primary));
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  
+  header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: var(--white);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(67, 56, 202, 0.4);
+    position: relative;
+    overflow: hidden;
+    padding-top: 5rem;
+  }
+  
+  header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+      radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.05) 10px,
+        rgba(255,255,255,0.05) 20px
+      );
+    z-index: 0;
+    animation: rotate 60s linear infinite;
+  }
+  
+  header > * {
+    position: relative;
+    z-index: 1;
+  }
+  
+  nav {
+    background: rgba(99, 102, 241, 0.98);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 1rem;
+    gap: 1rem;
+    box-shadow: inset 0 -2px 0 rgba(255,255,255,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    transition: var(--transition);
+  }
+  
+  nav.scrolled {
+    padding: 0.7rem;
+    box-shadow: 0 4px 20px rgba(67, 56, 202, 0.3);
+  }
+  
+  nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.7rem 1.4rem;
+    border-radius: 50px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05rem;
+  }
+  
+  nav a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+    z-index: -1;
+  }
+  
+  nav a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  nav a:hover::before {
+    transform: translateX(0);
+  }
+  
+  nav a i {
+    font-size: 1.1rem;
+  }
+  
+  .hero {
+    position: relative;
+    text-align: center;
+    color: var(--white);
+    background: linear-gradient(rgba(67, 56, 202, 0.85), rgba(55, 48, 163, 0.9)), 
+                url('https://source.unsplash.com/1600x900/?technology,developer,code') no-repeat center/cover; /* هذا سيتم تغييره */
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 1rem;
+  }
+
+  /* هذا النمط الجديد لصورتك الشخصية داخل قسم الـ Hero */
+  .hero .profile-img-container {
+    width: 180px; /* حجم الصورة */
+    height: 180px; /* حجم الصورة */
+    border-radius: 50%; /* لجعل الصورة دائرية */
+    overflow: hidden;
+    margin-bottom: 2rem; /* مسافة أسفل الصورة */
+    border: 5px solid rgba(255, 255, 255, 0.4); /* إطار حول الصورة */
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2), 0 10px 20px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 0.2s;
+  }
+
+  .hero .profile-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* لضمان تغطية الصورة للمساحة دون تشوه */
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 0 1rem;
+    max-width: 900px;
+    animation: fadeInUp 1s ease forwards;
+    display: flex; /* لتوسيط الصورة مع المحتوى */
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hero h2 {
+    font-size: 3.8rem;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    line-height: 1.2;
+  }
+  
+  .hero p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  
+  .hero-quote {
+    font-style: italic;
+    margin-top: 2rem;
+    padding: 1rem;
+    border-right: 3px solid var(--accent);
+    font-size: 1.3rem;
+    max-width: 700px;
+    margin: 2rem auto 0;
+    animation: fadeIn 2s ease forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--white);
+    padding: 1rem 2.8rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.2rem;
+    transition: var(--transition);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    margin-top: 1.5rem;
+    animation: pulse 2s infinite;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .cta-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+  
+  .cta-button:hover {
+    background: #7c3aed;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.6);
+    animation: none;
+  }
+  
+  .cta-button:hover::after {
+    transform: translateX(100%);
+  }
+  
+  .section {
+    padding: 5rem 1.5rem;
+    max-width: 1300px;
+    margin: 2rem auto;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid rgba(224, 231, 255, 0.6);
+  }
+  
+  .section:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(67, 56, 202, 0.18);
+  }
+  
+  .section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--primary), var(--accent));
+    transition: width 0.4s ease;
+  }
+  
+  .section:hover::before {
+    width: 8px;
+  }
+  
+  .section h2 {
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary-light);
+    padding-bottom: 0.8rem;
+    margin-bottom: 3rem;
+    font-size: 2.4rem;
+    position: relative;
+    display: inline-block;
+    padding-right: 1.5rem;
+    padding-left: 4rem;
+  }
+  
+  .section h2 i {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+  }
+  
+  .section h2::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    right: 0;
+    width: 50%;
+    height: 3px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
+  
+  .section:hover h2::after {
+    width: 100%;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.2rem;
+  }
+  
+  .card {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    padding: 2.2rem 1.8rem;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.12);
+    transition: var(--transition);
+    border: 1px solid rgba(224, 231, 255, 0.6);
+    position: relative;
+    overflow: hidden;
+    transform: translateY(30px);
+    opacity: 0;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+  }
+  
+  .card.visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    transform: translateY(-100%);
+    transition: transform 0.4s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 18px 35px rgba(99, 102, 241, 0.25);
+  }
+  
+  .card:hover::before {
+    transform: translateY(0);
+  }
+  
+  .card i {
+    font-size: 2.8rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    transition: var(--transition);
+    background: rgba(99, 102, 241, 0.1);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card:hover i {
+    color: var(--accent);
+    transform: scale(1.1);
+    background: rgba(139, 92, 246, 0.15);
+  }
+  
+  .card h3 {
+    color: var(--primary-dark);
+    margin-bottom: 1.2rem;
+    font-size: 1.5rem;
+    position: relative;
+    padding-bottom: 0.8rem;
+  }
+  
+  .card h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
+  
+  .card:hover h3::after {
+    width: 80px;
+  }
+  
+  .card p {
+    color: var(--gray);
+    line-height: 1.8;
+    font-size: 1.05rem;
+    opacity: 0; /* Initially hidden */
+    transform: translateY(20px); /* Move down */
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .card.visible p {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .project-card {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.12);
+    transition: var(--transition);
+    position: relative;
+    transform: translateY(30px);
+    opacity: 0;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+  }
+  
+  .project-card.visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .project-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .project-card .project-info {
+    padding: 1.8rem;
+  }
+  
+  .project-card h3 {
+    color: var(--primary-dark);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    position: relative;
+    padding-bottom: 0.8rem;
+  }
+  
+  .project-card h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+  }
+  
+  .project-card p {
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+  }
+  
+  .project-card .project-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+    gap: 8px;
+    transition: var(--transition);
+    font-size: 1.1rem;
+  }
+  
+  .project-card .project-link i {
+    transition: transform 0.3s ease;
+  }
+  
+  .project-card .project-link:hover {
+    color: var(--primary);
+  }
+  
+  .project-card .project-link:hover i {
+    transform: translateX(5px);
+  }
+  
+  .project-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 18px 35px rgba(99, 102, 241, 0.25);
+  }
+  
+  .project-card:hover img {
+    transform: scale(1.05);
+  }
+  
+  /* نموذج الاتصال */
+  .contact-form {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2.5rem;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    margin-top: 3rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .form-group {
+    margin-bottom: 1.8rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.7rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid rgba(99, 102, 241, 0.2);
+    border-radius: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+  
+  .form-group textarea {
+    min-height: 180px;
+    resize: vertical;
+  }
+  
+  .submit-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(67, 56, 202, 0.4);
+  }
+  
+  .submit-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(67, 56, 202, 0.5);
+  }
+  
+  .submit-btn:active {
+    transform: translateY(1px);
+  }
+  
+  footer {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: var(--white);
+    text-align: center;
+    padding: 4rem 1rem 2rem;
+    margin-top: 5rem;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(0 5%, 100% 0, 100% 100%, 0% 100%);
+  }
+  
+  footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.05) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 0%, transparent 40%);
+    z-index: 0;
+  }
+  
+  footer > * {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .footer-content {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    text-align: right;
+    margin-bottom: 3rem;
+  }
+  
+  .footer-column h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.8rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.8rem;
+  }
+  
+  .footer-column h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  
+  .footer-column ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .footer-column ul li {
+    margin-bottom: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.05rem;
+  }
+  
+  .footer-column ul li i {
+    color: var(--accent);
+    font-size: 1.3rem;
+  }
+  
+  .copyright {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 2rem;
+    margin-top: 2rem;
+    font-size: 1.05rem;
+    opacity: 0.9;
+  }
+  
+  button.lang-switch {
+    position: fixed;
+    top: 85px;
+    left: 20px;
+    z-index: 1000;
+    background: var(--primary-light);
+    border: none;
+    padding: 0.8rem 1.6rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--white);
+    box-shadow: 0 4px 20px rgba(67, 56, 202, 0.4);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+  }
+  
+  button.lang-switch:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(67, 56, 202, 0.6);
+  }
+  
+  body.lang-en [lang="ar"] { display: none; }
+  body:not(.lang-en) [lang="en"] { display: none; }
+  
+  .social {
+    margin-top: 2.5rem;
+    text-align: center;
+  }
+  
+  .social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    margin: 0 12px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--primary);
+    font-size: 1.6rem;
+    transition: var(--transition);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .social a::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+  }
+  
+  .social a i {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .social a:hover {
+    transform: translateY(-10px) scale(1.1);
+    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.45);
+  }
+  
+  .social a:hover::after {
+    opacity: 1;
+  }
+  
+  .social a:hover i {
+    color: white;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  ul li {
+    margin-bottom: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.1rem;
+  }
+  
+  ul li i {
+    color: var(--primary);
+    font-size: 1.3rem;
+    min-width: 30px;
+    background: rgba(99, 102, 241, 0.1);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* قسم السيرة الذاتية الجديد */
+  .cv-section {
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  }
+  
+  .cv-section h3 {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .cv-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed #e0e0e0;
+  }
+  
+  .cv-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  .cv-item h4 {
+    color: var(--primary-dark);
+    margin-bottom: 0.3rem;
+  }
+  
+  .cv-item .date {
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .cv-item p {
+    color: var(--gray);
+    line-height: 1.7;
+  }
+  
+  /* الخط الزمني */
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+  
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: var(--primary-light);
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -28px;
+    top: 5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--white);
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  
+  /* Scroll to Top Button */
+  #scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: var(--transition);
+    opacity: 0.8;
+  }
+
+  #scrollToTopBtn:hover {
+    background-color: var(--primary-dark);
+    opacity: 1;
+    transform: translateY(-5px);
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.6);
+    }
+    70% {
+      box-shadow: 0 0 0 20px rgba(139, 92, 246, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    }
+  }
+  
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .hero h2 {
+      font-size: 3.2rem;
+    }
+    
+    .hero p {
+      font-size: 1.3rem;
+    }
+    
+    .section {
+      padding: 4rem 1.5rem;
+    }
+    
+    .grid {
+      gap: 1.8rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero {
+      height: 75vh;
+    }
+    
+    .hero h2 {
+      font-size: 2.6rem;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+    }
+    
+    .hero-quote {
+      font-size: 1.1rem;
+    }
+    
+    nav {
+      gap: 0.6rem;
+    }
+    
+    nav a {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
+    }
+    
+    .section {
+      padding: 3.5rem 1.2rem;
+    }
+    
+    .section h2 {
+      font-size: 2rem;
+      padding-left: 3.5rem;
+    }
+    
+    .section h2 i {
+      width: 40px;
+      height: 40px;
+      font-size: 1.3rem;
+    }
+    
+    .footer-content {
+      text-align: center;
+      gap: 2.5rem;
+    }
+    
+    .footer-column h3::after {
+      right: 50%;
+      transform: translateX(50%);
+    }
+    
+    .contact-form {
+      padding: 2rem;
+    }
+    #scrollToTopBtn {
+      bottom: 20px;
+      right: 20px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .hero h2 {
+      font-size: 2.2rem;
+    }
+    
+    .hero p {
+      font-size: 1.05rem;
+    }
+    
+    .cta-button {
+      padding: 0.9rem 2.2rem;
+      font-size: 1.05rem;
+    }
+    
+    .card {
+      padding: 1.8rem 1.5rem;
+    }
+    
+    button.lang-switch {
+      top: 75px;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.9rem;
+    }
+    
+    .personal-logo {
+      top: 15px;
+      left: 15px;
+      width: 45px;
+      height: 45px;
+      font-size: 1.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="spinner"></div>
+</div>
+
+<button class="lang-switch" onclick="toggleLanguage()">
+  <i class="fas fa-globe"></i> English
+</button>
+
+<div class="progress-container">
+  <div class="progress-bar" id="myBar"></div>
+</div>
+
+<div class="personal-logo">MW</div>
+
+<header>
+  <h1 lang="ar">متولي الوصابي</h1>
+  <h1 lang="en">Metwally Al-Wessapi</h1>
+  <p lang="ar">مطور ومصمم محترف | خبير حلول رقمية</p>
+  <p lang="en">Professional Developer & Designer | Digital Solutions Expert</p>
+</header>
+
+<nav id="navbar">
+  <a href="#about" lang="ar"><i class="fas fa-user"></i> نبذة</a>
+  <a href="#cv" lang="ar"><i class="fas fa-graduation-cap"></i> السيرة الذاتية</a>
+  <a href="#skills" lang="ar"><i class="fas fa-laptop-code"></i> مهاراتي</a>
+  <a href="#services" lang="ar"><i class="fas fa-cogs"></i> خدماتي</a>
+  <a href="#projects" lang="ar"><i class="fas fa-project-diagram"></i> مشاريعي</a>
+  <a href="#contact" lang="ar"><i class="fas fa-envelope"></i> تواصل</a>
+
+  <a href="#about" lang="en"><i class="fas fa-user"></i> About</a>
+  <a href="#cv" lang="en"><i class="fas fa-graduation-cap"></i> CV</a>
+  <a href="#skills" lang="en"><i class="fas fa-laptop-code"></i> Skills</a>
+  <a href="#services" lang="en"><i class="fas fa-cogs"></i> Services</a>
+  <a href="#projects" lang="en"><i class="fas fa-project-diagram"></i> Projects</a>
+  <a href="#contact" lang="en"><i class="fas fa-envelope"></i> Contact</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="profile-img-container">
+      <img src="image/metwally.jpg.jpg" alt="صورة متولي الوصابي الشخصية">
+    </div>
+    <h2 lang="ar">تحويل الأفكار إلى واقع رقمي متميز</h2>
+    <p lang="ar">مطور ومصمم يمني شاب، أقدم حلولاً رقمية إبداعية تلبي احتياجات العصر</p>
+    
+    <h2 lang="en">Transforming Ideas into Outstanding Digital Reality</h2>
+    <p lang="en">A young Yemeni developer & designer, providing creative digital solutions for modern needs</p>
+    
+    <div class="hero-quote" lang="ar">
+      "الجودة ليست فعلًا، بل هي عادة. الإبداع يجعل المستحيل ممكنًا"
+    </div>
+    <div class="hero-quote" lang="en">
+      "Quality is not an act, it is a habit. Creativity makes the impossible possible"
+    </div>
+    
+    <a href="#contact" class="cta-button" lang="ar">ابدأ مشروعك معي الآن</a>
+    <a href="#contact" class="cta-button" lang="en">Start Your Project Now</a>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <h2 lang="ar"><i class="fas fa-user-circle"></i> من أنا؟</h2>
+  <h2 lang="en"><i class="fas fa-user-circle"></i> About Me</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <i class="fas fa-user-graduate"></i>
+      <h3 lang="ar">خبرة ومهارات</h3>
+      <p lang="ar">أنا متولي الوصابي، شاب يمني طموح من محافظة ذمار، أعمل كمطور ومصمم في العاصمة صنعاء. أمتلك خبرة واسعة في مجالات التصميم الجرافيكي، تطوير الويب، وتصميم الهوية البصرية. أسعى دائمًا لتقديم حلول إبداعية تلبي احتياجات عملائي بأعلى معايير الجودة.</p>
+      
+      <h3 lang="en">Experience & Skills</h3>
+      <p lang="en">I am Metwally Al-Wessapi, an ambitious young Yemeni from Dhamar province, working as a developer and designer in Sana'a. I have extensive experience in graphic design, web development, and visual identity design. I always strive to provide creative solutions that meet my clients' needs with the highest quality standards.</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-bullseye"></i>
+      <h3 lang="ar">رؤيتي وأهدافي</h3>
+      <p lang="ar">هدفي هو المساهمة في تطوير المجتمع التقني في اليمن والمنطقة العربية من خلال تقديم حلول رقمية مبتكرة. أسعى لإنشاء علامة تجارية مميزة تعكس جودة العمل والإبداع في كل مشروع. كما أهدف لتدريب الشباب ونقل خبراتي التقنية للأجيال القادمة.</p>
+      
+      <h3 lang="en">My Vision & Goals</h3>
+      <p lang="en">My goal is to contribute to the development of the tech community in Yemen and the Arab region by providing innovative digital solutions. I seek to create a distinctive brand that reflects quality work and creativity in every project. I also aim to train youth and transfer my technical expertise to future generations.</p>
+    </div>
+  </div>
+</section>
+
+<section id="cv" class="section">
+  <h2 lang="ar"><i class="fas fa-file-alt"></i> السيرة الذاتية</h2>
+  <h2 lang="en"><i class="fas fa-file-alt"></i> Curriculum Vitae</h2>
+  
+  <div class="cv-section">
+    <h3><i class="fas fa-user"></i> <span lang="ar">المعلومات الشخصية</span><span lang="en">Personal Information</span></h3>
+    <div class="cv-item">
+      <h4 lang="ar">الاسم الكامل: متولي الوصابي</h4>
+      <h4 lang="en">Full Name: Metwally Al-Wessapi</h4>
+      
+      <span class="date" lang="ar">تاريخ الميلاد: 2006</span>
+      <span class="date" lang="en">Date of Birth: 2006</span>
+      
+      <p lang="ar">الجنسية: يمني</p>
+      <p lang="en">Nationality: Yemeni</p>
+      
+      <p lang="ar">الحالة الاجتماعية: أعزب</p>
+      <p lang="en">Marital Status: Single</p>
+    </div>
+  </div>
+  
+  <div class="cv-section">
+    <h3><i class="fas fa-graduation-cap"></i> <span lang="ar">المؤهلات التعليمية</span><span lang="en">Education</span></h3>
+    
+    <div class="timeline">
+      <div class="timeline-item">
+        <h4 lang="ar">الثانوية العامة</h4>
+        <h4 lang="en">High School</h4>
+        
+        <span class="date" lang="ar">مدرسة كبود الثانوية - تخرجت في عام 2022</span>
+        <span class="date" lang="en">Koboud Secondary School - Graduated in 2022</span>
+      </div>
+      
+      <div class="timeline-item">
+        <h4 lang="ar">المعاهد والدورات التدريبية</h4>
+        <h4 lang="en">Institutes & Training Courses</h4>
+        
+        <p lang="ar">معهد A2Z – دورات حاسوب ولغات</p>
+        <p lang="en">A2Z Institute - Computer and language courses</p>
+        
+        <p lang="ar">معهد الأمجاد – لغة إنجليزية</p>
+        <p lang="en">Al-Amjad Institute - English language</p>
+        
+        <p lang="ar">معهد الليالي – لغة إنجليزية</p>
+        <p lang="en">Al-Layali Institute - English language</p>
+      </div>
+      
+      <div class="timeline-item">
+        <h4 lang="ar">الجامعة</h4>
+        <h4 lang="en">University</h4>
+        
+        <span class="date" lang="ar">جامعة اليمن الأردنية - كلية الحاسوب - تخصص تقنية معلومات (IT) - سنة 2024</span>
+        <span class="date" lang="en">Yemen Jordanian University - College of Computer - IT specialization - 2024</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="section">
+  <h2 lang="ar"><i class="fas fa-tools"></i> مهاراتي الاحترافية</h2>
+  <h2 lang="en"><i class="fas fa-tools"></i> Professional Skills</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <i class="fas fa-paint-brush"></i>
+      <h3 lang="ar">التصميم الجرافيكي</h3>
+      <p lang="ar">تصميم إبداعي باستخدام Adobe Photoshop, Illustrator, Canva مع الالتزام بأحدث اتجاهات التصميم وضمان الجودة العالية والهوية البصرية المتماسكة.</p>
+      
+      <h3 lang="en">Graphic Design</h3>
+      <p lang="en">Creative design using Adobe Photoshop, Illustrator, Canva, adhering to the latest design trends and ensuring high quality and cohesive visual identity.</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-code"></i>
+      <h3 lang="ar">تطوير الويب والبرمجة</h3>
+      <p lang="ar">برمجة وتطوير مواقع وتطبيقات باستخدام HTML, CSS, JavaScript, ++C مع التركيز على الأداء العالي وتجربة المستخدم المثالية.</p>
+      
+      <h3 lang="en">Web Development & Programming</h3>
+      <p lang="en">Programming and development of websites and applications using HTML, CSS, JavaScript, C++, focusing on high performance and optimal user experience.</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-drafting-compass"></i>
+      <h3 lang="ar">الهوية البصرية المتكاملة</h3>
+      <p lang="ar">تصميم هوية بصرية متكاملة تشمل الشعارات، البنرات، الملفات التعريفية، مع الحفاظ على الاتساق والتميز في الهوية البصرية للعلامة التجارية.</p>
+      
+      <h3 lang="en">Comprehensive Visual Identity</h3>
+      <p lang="en">Designing a comprehensive visual identity including logos, banners, profiles, while maintaining consistency and distinctiveness in the brand's visual identity.</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-robot"></i>
+      <h3 lang="ar">الذكاء الاصطناعي والهندسة</h3>
+      <p lang="ar">خبرة في مفاهيم الذكاء الاصطناعي، تعلم الآلة، وهندسة النظم، مع القدرة على تطبيقها في حل المشكلات المعقدة وتطوير الابتكارات التقنية.</p>
+      
+      <h3 lang="en">Artificial Intelligence & Engineering</h3>
+      <p lang="en">Expertise in AI concepts, machine learning, and systems engineering, with the ability to apply them in solving complex problems and developing technological innovations.</p>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-chart-line"></i>
+      <h3 lang="ar">الحلول الرقمية المتكاملة</h3>
+      <p lang="ar">تقديم حلول رقمية شاملة تشمل التسويق الإلكتروني، شحن الألعاب والبرامج، وإعداد ملفات PDF تفاعلية لتلبية جميع احتياجاتك الرقمية.</p>
+      
+      <h3 lang="en">Integrated Digital Solutions</h3>
+      <p lang="en">Providing comprehensive digital solutions including digital marketing, game and software recharge, and interactive PDF preparation to meet all your digital needs.</p>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="section">
+  <h2 lang="ar"><i class="fas fa-concierge-bell"></i> خدماتي الاحترافية</h2>
+  <h2 lang="en"><i class="fas fa-concierge-bell"></i> Professional Services</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <i class="fas fa-palette"></i>
+      <h3 lang="ar">تصميم شعارات احترافية</h3>
+      <p lang="ar">تصميم شعارات مبتكرة تعبر عن هوية علامتك التجارية بدقة، مع ضمان التميز والاحترافية والجودة العالية التي تترك انطباعًا دائمًا.</p>
+      
+      <h3 lang="en">Professional Logo Design</h3>
+      <p lang="en">Designing innovative logos that accurately express your brand identity, ensuring distinctiveness, professionalism, and high quality that leave a lasting impression.</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-laptop-code"></i>
+      <h3 lang="ar">تطوير مواقع إلكترونية</h3>
+      <p lang="ar">تصميم وتطوير مواقع إلكترونية متجاوبة وسريعة وآمنة، مع مراعاة معايير السيو وتجربة المستخدم المثالية لتحقيق أهدافك التجارية.</p>
+      
+      <h3 lang="en">Website Development</h3>
+      <p lang="en">Designing and developing responsive, fast, and secure websites, considering SEO standards and optimal user experience to achieve your business goals.</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-id-card"></i>
+      <h3 lang="ar">هوية بصرية متكاملة</h3>
+      <p lang="ar">تصميم هوية بصرية متكاملة تشمل جميع عناصر علامتك التجارية، مع ضمان الاتساق والتميز في كل التفاصيل لتعزيز حضورك الرقمي.</p>
+      
+      <h3 lang="en">Complete Visual Identity</h3>
+      <p lang="en">Designing a comprehensive visual identity that includes all elements of your brand, ensuring consistency and excellence in every detail to enhance your digital presence.</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-gamepad"></i>
+      <h3 lang="ar">شحن ألعاب وبرامج</h3>
+      <p lang="ar">خدمة شحن رصيد سريعة وآمنة لأشهر الألعاب والبرامج، مع دعم فني متكامل لضمان تجربة مستخدم سلسة وممتعة.</p>
+      
+      <h3 lang="en">Game & Software Recharge</h3>
+      <p lang="en">Fast and secure recharge service for popular games and software, with comprehensive technical support to ensure a smooth and enjoyable user experience.</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-file-pdf"></i>
+      <h3 lang="ar">تصميم ملفات PDF تفاعلية</h3>
+      <p lang="ar">إعداد وتصميم ملفات PDF احترافية وتفاعلية لعرض محتواك بشكل جذاب ومؤثر، مع دعم كافة العناصر التفاعلية والوسائط المتعددة.</p>
+      
+      <h3 lang="en">Interactive PDF Design</h3>
+      <p lang="en">Preparation and design of professional and interactive PDF files to present your content in an attractive and impactful way, with support for all interactive elements and multimedia.</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-mobile-alt"></i>
+      <h3 lang="ar">تصميم تطبيقات الجوال</h3>
+      <p lang="ar">تصميم واجهات مستخدم لتطبيقات الجوال باحترافية عالية، مع التركيز على البساطة والجماليات والوظائفية لتحقيق تجربة مستخدم استثنائية.</p>
+      
+      <h3 lang="en">Mobile App Design</h3>
+      <p lang="en">Designing mobile app user interfaces with high professionalism, focusing on simplicity, aesthetics, and functionality to achieve an exceptional user experience.</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="section">
+  <h2 lang="ar"><i class="fas fa-folder-open"></i> مشاريعي المتميزة</h2>
+  <h2 lang="en"><i class="fas fa-folder-open"></i> Featured Projects</h2>
+  
+  <div class="grid">
+    <div class="project-card">
+      <img src="data:image/jpeg;base64,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" alt="براءة اختراع">
+      <div class="project-info">
+        <h3 lang="ar">براءة اختراع في مجال الذكاء الاصطناعي</h3>
+        <p lang="ar">تفاصيل عن براءة الاختراع الخاصة بي، التقنيات المستخدمة، وأهميتها في المجال. هذا المشروع يعكس قدرتي على الابتكار والتفكير خارج الصندوق.</p>
+        <a href="#" class="project-link" lang="ar">عرض التفاصيل <i class="fas fa-arrow-left"></i></a>
+        
+        <h3 lang="en">Patent in Artificial Intelligence</h3>
+        <p lang="en">Details about my patent, the technologies used, and its significance in the field. This project reflects my ability to innovate and think outside the box.</p>
+        <a href="#" class="project-link" lang="en">View Details <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4A-b2XDTXD_SCDNK_SS4LLz3RkIateI7Lvg&s" alt="مشروع تعلم آلة">
+      <div class="project-info">
+        <h3 lang="ar">نظام ذكي لتحليل البيانات</h3>
+        <p lang="ar">تطوير نظام يعتمد على تعلم الآلة لتحليل مجموعات بيانات ضخمة وتقديم رؤى قيمة لدعم اتخاذ القرار. تم تنفيذه باستخدام Python وTensorFlow.</p>
+        <a href="#" class="project-link" lang="ar">عرض المشروع <i class="fas fa-arrow-left"></i></a>
+        
+        <h3 lang="en">Intelligent Data Analysis System</h3>
+        <p lang="en">Development of a machine learning-based system to analyze large datasets and provide valuable insights for decision-making. Implemented with Python and TensorFlow.</p>
+        <a href="#" class="project-link" lang="en">View Project <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="data:image/jpeg;base64,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" alt="مشروع برمجة">
+      <div class="project-info">
+        <h3 lang="ar">منصة تجارة إلكترونية متكاملة</h3>
+        <p lang="ar">تصميم وتطوير متجر إلكتروني متكامل مع نظام دفع آمن، إدارة مخزون، وتجربة مستخدم استثنائية، مما ساعد العميل على زيادة مبيعاته بنسبة 70%.</p>
+        <a href="https://wa.me/c/967771241839" target="_blank" class="project-link" lang="ar">عرض المشروع <i class="fas fa-arrow-left"></i></a>
+        
+        <h3 lang="en">Integrated E-commerce Platform</h3>
+        <p lang="en">Design and development of a complete e-commerce store with secure payment system, inventory management, and exceptional user experience, helping the client increase sales by 70%.</p>
+        <a href="https://wa.me/c/967771241839" target="_blank" class="project-link" lang="en">View Project <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  
+    <div class="project-card">
+      <img src="https://www.rs4it.sa/wp-content/uploads/2021/12/%D9%87%D9%88%D9%8A%D8%A9-%D8%A7%D9%84%D8%B4%D8%B1%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6.jpg" alt="تصميم شعار">
+      <div class="project-info">
+        <h3 lang="ar">هوية بصرية لشركة تقنية ناشئة</h3>
+        <p lang="ar">تصميم هوية بصرية متكاملة لشركة تقنية ناشئة، شملت الشعار، الألوان، الخطوط، وتطبيقات العلامة التجارية على مختلف المنصات.</p>
+        <a href="#" class="project-link" lang="ar">عرض المشروع <i class="fas fa-arrow-left"></i></a>
+        
+        <h3 lang="en">Visual Identity for Tech Startup</h3>
+        <p lang="en">Comprehensive visual identity design for a tech startup, including logo, colors, fonts, and brand applications across various platforms.</p>
+        <a href="#" class="project-link" lang="en">View Project <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+    
+    <div class="project-card">
+      <img src="https://bayain.com/wp-content/uploads/2024/09/%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%AA%D8%B7%D8%A8%D9%8A%D9%82-%D8%AA%D9%88%D8%B5%D9%8A%D9%84-%D8%B7%D9%84%D8%A8%D8%A7%D8%AA-1536x922-1-1024x615-1.webp" alt="تصميم تطبيق">
+      <div class="project-info">
+        <h3 lang="ar">تطبيق جوال لخدمة توصيل طعام</h3>
+        <p lang="ar">تصميم واجهات مستخدم لتطبيق جوال لخدمة توصيل طعام، مع التركيز على البساطة وسهولة الاستخدام وسرعة الوصول للخدمات المطلوبة.</p>
+        <a href="#" class="project-link" lang="ar">عرض المشروع <i class="fas fa-arrow-left"></i></a>
+        
+        <h3 lang="en">Food Delivery Mobile App</h3>
+        <p lang="en">User interface design for a food delivery mobile application, focusing on simplicity, ease of use, and quick access to required services.</p>
+        <a href="#" class="project-link" lang="en">View Project <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+    
+    <div class="project-card">
+      <img src="https://academy.hsoub.com/uploads/monthly_2021_05/6093ce64d4c8a_03_.jpg.62addc7234313065034235669dc95120.jpg" alt="هوية بصرية">
+      <div class="project-info">
+        <h3 lang="ar">تجديد هوية مؤسسة تعليمية</h3>
+        <p lang="ar">إعادة تصميم الهوية البصرية لمؤسسة تعليمية رائدة، مع الحفاظ على القيم الأساسية مع تقديم صورة عصرية وجذابة للجيل الجديد.</p>
+        <a href="#" class="project-link" lang="ar">عرض المشروع <i class="fas fa-arrow-left"></i></a>
+        
+        <h3 lang="en">Rebranding Educational Institution</h3>
+        <p lang="en">Redesigning the visual identity of a leading educational institution, preserving core values while presenting a modern and attractive image for the new generation.</p>
+        <a href="#" class="project-link" lang="en">View Project <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <h2 lang="ar"><i class="fas fa-envelope"></i> تواصل معي</h2>
+  <h2 lang="en"><i class="fas fa-envelope"></i> Contact Me</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <i class="fas fa-phone-alt"></i>
+      <h3 lang="ar">الهاتف</h3>
+      <p lang="ar">‎+967 771 241 839</p>
+      <p lang="ar">‎+967 716 225 653</p>
+      
+      <h3 lang="en">Phone</h3>
+      <p lang="en">‎+967 771 241 839</p>
+      <p lang="en">‎+967 716 225 653</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-envelope"></i>
+      <h3 lang="ar">البريد الإلكتروني</h3>
+      <p lang="ar">metwallywessapi@gmail.com</p>
+      <p lang="ar">mwessapi@proton.me</p>
+      
+      <h3 lang="en">Email</h3>
+      <p lang="en">metwallywessapi@gmail.com</p>
+      <p lang="en">mwessapi@proton.me</p>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-map-marker-alt"></i>
+      <h3 lang="ar">الموقع</h3>
+      <p lang="ar">صنعاء، اليمن</p>
+      <p lang="ar">خدماتي متاحة لجميع أنحاء العالم</p>
+      
+      <h3 lang="en">Location</h3>
+      <p lang="en">Sana'a, Yemen</p>
+      <p lang="en">Services available worldwide</p>
+    </div>
+  </div>
+  
+  <div class="contact-form">
+    <h3 lang="ar">أرسل لي رسالة مباشرة</h3>
+    <h3 lang="en">Send Me a Direct Message</h3>
+    
+    <form id="contactForm">
+      <div class="form-group">
+        <label for="name" lang="ar">الاسم الكامل</label>
+        <label for="name" lang="en">Full Name</label>
+        <input type="text" id="name" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email" lang="ar">البريد الإلكتروني</label>
+        <label for="email" lang="en">Email Address</label>
+        <input type="email" id="email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="subject" lang="ar">موضوع الرسالة</label>
+        <label for="subject" lang="en">Subject</label>
+        <input type="text" id="subject" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="message" lang="ar">الرسالة</label>
+        <label for="message" lang="en">Message</label>
+        <textarea id="message" required></textarea>
+      </div>
+      
+      <button type="submit" class="submit-btn" lang="ar">
+        <i class="fas fa-paper-plane"></i> أرسل الرسالة
+      </button>
+      <button type="submit" class="submit-btn" lang="en">
+        <i class="fas fa-paper-plane"></i> Send Message
+      </button>
+    </form>
+  </div>
+  
+  <div class="social">
+    <a href="https://github.com/mwsapi" target="_blank" title="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+    <a href="https://www.instagram.com/mwsapi100" target="_blank" title="Instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61564961733937" target="_blank" title="Facebook">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://wa.me/967771241839" target="_blank" title="WhatsApp">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="https://twitter.com/" target="_blank" title="Twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3 lang="ar">متولي الوصابي</h3>
+      <h3 lang="en">Metwally Al-Wessapi</h3>
+      <p lang="ar">مطور ومصمم محترف | خبير حلول رقمية</p>
+      <p lang="en">Professional Developer & Designer | Digital Solutions Expert</p>
+    </div>
+    
+    <div class="footer-column">
+      <h3 lang="ar">روابط سريعة</h3>
+      <h3 lang="en">Quick Links</h3>
+      <ul>
+        <li><a href="#about" lang="ar"><i class="fas fa-arrow-left"></i> نبذة عني</a></li>
+        <li><a href="#cv" lang="ar"><i class="fas fa-arrow-left"></i> السيرة الذاتية</a></li>
+        <li><a href="#skills" lang="ar"><i class="fas fa-arrow-left"></i> مهاراتي</a></li>
+        <li><a href="#services" lang="ar"><i class="fas fa-arrow-left"></i> خدماتي</a></li>
+        <li><a href="#contact" lang="ar"><i class="fas fa-arrow-left"></i> تواصل</a></li>
+        
+        <li><a href="#about" lang="en"><i class="fas fa-arrow-right"></i> About Me</a></li>
+        <li><a href="#cv" lang="en"><i class="fas fa-arrow-right"></i> Curriculum Vitae</a></li>
+        <li><a href="#skills" lang="en"><i class="fas fa-arrow-right"></i> My Skills</a></li>
+        <li><a href="#services" lang="en"><i class="fas fa-arrow-right"></i> My Services</a></li>
+        <li><a href="#contact" lang="en"><i class="fas fa-arrow-right"></i> Contact</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3 lang="ar">تواصل معي</h3>
+      <h3 lang="en">Contact Me</h3>
+      <ul>
+        <li><i class="fas fa-phone-alt"></i> ‎+967 771 241 839</li>
+        <li><i class="fas fa-envelope"></i> metwallywessapi@gmail.com</li>
+        <li><i class="fas fa-map-marker-alt"></i> <span lang="ar">صنعاء، اليمن</span><span lang="en">Sana'a, Yemen</span></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="copyright">
+    <p lang="ar">جميع الحقوق محفوظة © 2025 متولي الوصابي</p>
+    <p lang="en">© 2025 Metwally Al-Wessapi. All rights reserved.</p>
+  </div>
+</footer>
+
+<button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+// Preloader
+window.addEventListener('load', function() {
+  const preloader = document.getElementById('preloader');
+  preloader.classList.add('hidden');
+  document.body.style.overflow = 'auto'; // Re-enable scrolling after load
+});
+
+function toggleLanguage() {
+  document.body.classList.toggle('lang-en');
+  const btn = document.querySelector('button.lang-switch');
+  if (document.body.classList.contains('lang-en')) {
+    btn.innerHTML = '<i class="fas fa-globe"></i> العربية';
+  } else {
+    btn.innerHTML = '<i class="fas fa-globe"></i> English';
+  }
+  
+  // Play sound effect
+  const sound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3');
+  sound.volume = 0.3;
+  sound.play();
+}
+
+// شريط التقدم & Scroll-to-top button visibility
+window.onscroll = function() {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById("myBar").style.width = scrolled + "%";
+  
+  // إضافة تأثير التمرير للبطاقات
+  const cards = document.querySelectorAll('.card, .project-card');
+  cards.forEach(card => {
+    const cardTop = card.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+    
+    if (cardTop < windowHeight * 0.85) {
+      card.classList.add('visible');
+    }
+  });
+  
+  // تغيير نمط شريط التنقل عند التمرير
+  const navbar = document.getElementById('navbar');
+  if (window.scrollY > 100) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+
+  // Show/Hide Scroll-to-top button
+  const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+    scrollToTopBtn.style.display = "block";
+  } else {
+    scrollToTopBtn.style.display = "none";
+  }
+};
+
+// Scroll to Top Function
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+  const sound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3');
+  sound.volume = 0.3;
+  sound.play();
+}
+
+// التمرير السلس للروابط
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      window.scrollTo({
+        top: target.offsetTop - 80, // Adjust for sticky nav
+        behavior: 'smooth'
+      });
+      
+      // Play sound effect
+      const sound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3');
+      sound.volume = 0.3;
+      sound.play();
+    }
+  });
+});
+
+// نموذج الاتصال
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Play sound effect
+  const sound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3');
+  sound.volume = 0.3;
+  sound.play();
+  
+  // Simulate form submission (in a real scenario, you'd send data to a server here)
+  alert(document.body.classList.contains('lang-en') ? 
+        'Your message has been sent successfully! I will contact you soon.' : 
+        'تم إرسال رسالتك بنجاح! سأتصل بك قريبًا.');
+  
+  // Reset form
+  this.reset();
+});
+
+// Initialize animations on page load
+window.addEventListener('load', function() {
+  const cards = document.querySelectorAll('.card, .project-card');
+  cards.forEach((card, index) => {
+    card.style.transitionDelay = `${index * 0.1}s`;
+  });
+  
+  // Add visible class to cards that are already in view
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.card, .project-card');
+    cards.forEach(card => {
+      const cardTop = card.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+      
+      if (cardTop < windowHeight * 0.85) {
+        card.classList.add('visible');
+      }
+    });
+  }, 500);
+});
+</script>
+
+</body>
+</html>
